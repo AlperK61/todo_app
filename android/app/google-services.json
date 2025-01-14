@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "39578539454",
+    "project_id": "todo-alper",
+    "storage_bucket": "todo-alper.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39578539454:android:46374d351f51f4f75a15ef",
+        "android_client_info": {
+          "package_name": "com.todo.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3gbFGXkk_9F7EzuBpwnGa3HQY9obAnIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
