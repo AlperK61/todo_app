@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/firebase_options.dart';
+import 'package:todo_app/interfaces/authentication_interface.dart';
+import 'package:todo_app/services/authentication_service.dart';
+import 'package:todo_app/services/firebase_auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,14 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final AuthenticationInterface authenticationService = FirebaseAuthService();
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -108,24 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
                 onPressed: () async {
-                  try {
-                    print(FirebaseAuth.instance.currentUser?.email);
-
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: _usernameController.text,
-                      password: _passwordController.text,
-                    );
-                    print("test");
-                    print(FirebaseAuth.instance.currentUser?.email);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Login successful')),
-                    );
-                  } catch (e) {
-                    print('Failed to sign in: $e');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Failed to sign in: $e')),
-                    );
-                  }
+                  await authenticationService.logIn(
+                      _usernameController.text, _passwordController.text);
                 },
                 child: Text('Log in')),
 
@@ -137,9 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
                 onPressed: () async {
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                      email: _usernameController.text,
-                      password: _passwordController.text);
+                  await authenticationService.register(_usernameController.text,
+                      _usernameController.text, _passwordController.text);
                 },
                 child: Text('Register'))
           ],
