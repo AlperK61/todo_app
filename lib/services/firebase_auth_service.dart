@@ -20,6 +20,10 @@ class FirebaseAuthService implements AuthenticationInterface {
   @override
   Future<bool> register(
       String email, String emailVerificaton, String password) async {
+    if (email != emailVerificaton) {
+      return false;
+    }
+
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);

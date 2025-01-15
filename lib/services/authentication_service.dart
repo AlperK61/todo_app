@@ -4,7 +4,6 @@ class AuthenticationService extends AuthenticationInterface {
   //Login function
   @override
   Future<bool> logIn(String email, String password) {
-    // TODO: implement logIn
     throw UnimplementedError();
   }
 
@@ -12,7 +11,6 @@ class AuthenticationService extends AuthenticationInterface {
   @override
   Future<bool> register(
       String email, String emailVerificaton, String password) {
-    // TODO: implement register
     throw UnimplementedError();
   }
 }
