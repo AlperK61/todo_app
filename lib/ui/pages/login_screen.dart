@@ -55,54 +55,33 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
               onPressed: () async {
-                if (_usernameController.text.isEmpty ||
-                    _passwordController.text.isEmpty) {
-                  showTopSnackBar(
-                    Overlay.of(context),
-                    CustomSnackBar.error(
-                      message: "Username and password cannot be empty.",
-                    ),
-                  );
-                  return;
-                }
+                bool loggedIn = false;
 
                 try {
-                  bool loggedIn = await getIt<AuthenticationInterface>().logIn(
-                      _usernameController.text, _passwordController.text);
+                  // Benutzer anmelden
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: _usernameController.text,
+                    password: _passwordController.text,
+                  );
 
-                  if (loggedIn) {
+                  // Benutzerinformationen abrufen
+                  User? user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
                     showTopSnackBar(
                       Overlay.of(context),
-                      CustomSnackBar.success(
-                        message: "Successfully logged in",
-                      ),
+                      CustomSnackBar.success(message: "Successfully logged in"),
                     );
                   } else {
-                    print(
-                        'Login failed with credentials: ${_usernameController.text} / ${_passwordController.text}');
                     showTopSnackBar(
                       Overlay.of(context),
-                      CustomSnackBar.error(
-                        message: "Login failed",
-                      ),
+                      CustomSnackBar.error(message: "Login failed"),
                     );
                   }
-                } on FirebaseAuthException catch (e) {
-                  print('FirebaseAuthException: ${e.message}');
+                } catch (e) {
+                  print('Error during login: $e');
                   showTopSnackBar(
                     Overlay.of(context),
-                    CustomSnackBar.error(
-                      message: "Login error: ${e.message}",
-                    ),
-                  );
-                } catch (e, stacktrace) {
-                  print('Unexpected error: $e');
-                  print('Stacktrace: $stacktrace');
-                  showTopSnackBar(
-                    Overlay.of(context),
-                    CustomSnackBar.error(
-                      message: "An unexpected error occurred.",
-                    ),
+                    CustomSnackBar.error(message: "Login error: $e"),
                   );
                 }
               },
