@@ -13,6 +13,9 @@ class FirebaseAuthService implements AuthenticationInterface {
       }
       return false;
     } catch (e) {
+      print("Error in login: ");
+
+      print(e);
       return false;
     }
   }
