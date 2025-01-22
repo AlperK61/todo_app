@@ -100,8 +100,6 @@ class _LoginPageState extends State<LoginPage> {
                       _usernameController.text,
                       _usernameController.text,
                       _passwordController.text);
-                  print(_usernameController.text);
-                  print(_passwordController.text);
                 },
                 child: Text('Register'))
           ],
