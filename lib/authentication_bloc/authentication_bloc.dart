@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:todo_app/interfaces/authentication_interface.dart';
-import 'package:todo_app/service_registration.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
