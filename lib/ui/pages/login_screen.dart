@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todo_app/authentication_bloc/authentication_bloc.dart';
 import 'package:todo_app/interfaces/authentication_interface.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -16,8 +18,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  final getIt = GetIt.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -55,35 +55,8 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
               onPressed: () async {
-                bool loggedIn = false;
-
-                try {
-                  // Benutzer anmelden
-                  await FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: _usernameController.text,
-                    password: _passwordController.text,
-                  );
-
-                  // Benutzerinformationen abrufen
-                  User? user = FirebaseAuth.instance.currentUser;
-                  if (user != null) {
-                    showTopSnackBar(
-                      Overlay.of(context),
-                      CustomSnackBar.success(message: "Successfully logged in"),
-                    );
-                  } else {
-                    showTopSnackBar(
-                      Overlay.of(context),
-                      CustomSnackBar.error(message: "Login failed"),
-                    );
-                  }
-                } catch (e) {
-                  print('Error during login: $e');
-                  showTopSnackBar(
-                    Overlay.of(context),
-                    CustomSnackBar.error(message: "Login error: $e"),
-                  );
-                }
+                BlocProvider.of<AuthenticationBloc>(context).add(LoginEvent(
+                    _usernameController.text, _passwordController.text));
               },
               child: Text('Log in'),
             ),
@@ -95,12 +68,7 @@ class _LoginPageState extends State<LoginPage> {
             //Register button
             ElevatedButton(
                 style: ElevatedButton.styleFrom(minimumSize: Size(200, 50)),
-                onPressed: () async {
-                  await getIt<AuthenticationInterface>().register(
-                      _usernameController.text,
-                      _usernameController.text,
-                      _passwordController.text);
-                },
+                onPressed: () async {},
                 child: Text('Register'))
           ],
         ),

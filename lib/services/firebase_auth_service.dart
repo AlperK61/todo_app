@@ -4,11 +4,6 @@ import 'package:todo_app/interfaces/authentication_interface.dart';
 class FirebaseAuthService implements AuthenticationInterface {
   @override
   Future<bool> logIn(String email, String password) async {
-    if (email.isEmpty || password.isEmpty) {
-      print("Email and password cannot be empty");
-      return false;
-    }
-
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
