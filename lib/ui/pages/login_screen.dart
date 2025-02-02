@@ -25,6 +25,15 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                builder: (context, state) {
+                  return Text(state.toString());
+                },
+              ),
+            ),
+
             //Username
             Padding(
               padding: const EdgeInsets.all(16.0),
